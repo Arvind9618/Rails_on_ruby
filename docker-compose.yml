@@ -1,0 +1,29 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://openflights:password@db/openflights
+    networks:
+      - openflights-network
+
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: openflights
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: openflights
+    networks:
+      - openflights-network
+
+networks:
+  openflights-network:
+
